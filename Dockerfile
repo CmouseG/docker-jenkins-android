@@ -58,7 +58,7 @@ COPY ./licenses /opt/android-sdk-linux/licenses
 
 # Add gradle
 ## Source https://services.gradle.org/distributions/
-ADD http://os2xb1aks.bkt.clouddn.com/android/gradle-2.14.1-bin.zip /opt/
+ADD http://os2xb1aks.bkt.clouddn.com/android/gradle/gradle-2.14.1-bin.zip /opt/
 RUN unzip /opt/gradle-2.14.1-bin.zip -d /opt && \
     rm /opt/gradle-2.14.1-bin.zip
 ENV GRADLE_HOME /opt/gradle-2.14.1
