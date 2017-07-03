@@ -6,7 +6,7 @@
 # Set the base image from Ubuntu
 FROM ubuntu:16.04
 
-# The information of the author
+# 镜像维护者
 MAINTAINER CmouseG <mouseg1668924806@gmail.com>
 
 # Nerver ask for confirmations
@@ -30,8 +30,8 @@ RUN apt-get update && \
 	apt-get autoclean -y && \
 	apt-get autoremove -y
 
-ENV JAVA_HOME /usr/bin/java
-ENV PATH $JAVA_HOME:$PATH
+ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+# ENV PATH $JAVA_HOME:$PATH
 
 # Add Android SDK
 ## Source https://developer.android.com/studio/index.html
@@ -50,9 +50,14 @@ RUN echo $PATH && \
     ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | android update sdk -u --filter platform-tools,android-19,build-tools-19.0.3 && \
     chmod -R 755 $ANDROID_HOME
 
+# Copy dir
+COPY ./licenses /opt/android-sdk-linux/licenses
+#ADD ./licenses /opt/android-sdk-linux/
+#RUN mv /opt/android-sdk-linux/android-sdk-license /opt/android-sdk-linux/licenses
+
 # Add gradle
 ## Source https://services.gradle.org/distributions/
-ADD https://services.gradle.org/distributions/gradle-2.14.1-bin.zip /opt/
+ADD http://os2xb1aks.bkt.clouddn.com/android/gradle-2.14.1-bin.zip /opt/
 RUN unzip /opt/gradle-2.14.1-bin.zip -d /opt && \
     rm /opt/gradle-2.14.1-bin.zip
 ENV GRADLE_HOME /opt/gradle-2.14.1
@@ -77,5 +82,6 @@ RUN wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | apt-key a
 EXPOSE 8080
 
 VOLUME ["/root/.jenkins/"]
+#VOLUME ["/opt/android-sdk-linux/"]
 
 ENTRYPOINT [ "java","-jar","/usr/share/jenkins/jenkins.war" ]
