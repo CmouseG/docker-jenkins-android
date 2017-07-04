@@ -15,8 +15,9 @@ RUN echo "debconf shared/accepted-oracle-license-v1-1 select true" | /usr/bin/de
     echo "debconf shared/accepted-oracle-license-v1-1 seen true" | /usr/bin/debconf-set-selections
 
 # Change aliyun source
-RUN rm -rf /etc/apt/sources.list
-COPY ./sources.list /etc/apt/
+RUN cp /etc/apt/sources.list /etc/apt/sources_bak.list
+#RUN rm -rf /etc/apt/sources.list
+COPY ./sources_aliyun.list /etc/apt/sources.list
 
 # Add oracle-jdk8 packages to and from apt.
 RUN apt-get update && \
@@ -40,7 +41,7 @@ RUN wget --progress=dot:giga https://dl.google.com/android/android-sdk_r24.4.1-l
 	mv android-sdk_r24.4.1-linux.tgz /opt/ && \
 	cd /opt && tar xzvf ./android-sdk_r24.4.1-linux.tgz && \
 	rm -r /opt/android-sdk_r24.4.1-linux.tgz && \
-	apt-get install gcc-multilib -y && \
+	apt-get install gcc-multilib -y --fix-missing && \
 	apt-get autoclean -y && \
 	apt-get autoremove -y
 
