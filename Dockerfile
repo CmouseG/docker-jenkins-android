@@ -32,7 +32,7 @@ RUN apt-get update && \
 	apt-get autoremove -y
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
-# ENV PATH $JAVA_HOME:$PATH
+ENV PATH $JAVA_HOME:$PATH
 ENV JAVA_OPTS -Duser.timezone=Asia/Shanghai -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8
 
 # Add Android SDK
