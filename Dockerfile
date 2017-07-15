@@ -3,6 +3,9 @@
 # Based on Ubuntu                #
 ##################################
 
+## docker run -it -e LANG=en_US.UTF-8 -e JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8 -v /home/demo/jenkins/:/root/.jenkins -v /etc/localtime:/etc/localtime:ro -v /etc/timezone:/etc/timezone:ro -p $port:8080 $repo:$tag
+#Picked up JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF8
+
 # Set the base image from Ubuntu
 FROM ubuntu:16.04
 
@@ -32,8 +35,15 @@ RUN apt-get update && \
 	apt-get autoremove -y
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
-ENV PATH $JAVA_HOME:$PATH
-ENV JAVA_OPTS -Duser.timezone=Asia/Shanghai -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8
+#ENV PATH $JAVA_HOME:$PATH
+
+#ENV JAVA_OPTS -Duser.timezone=Asia/Shanghai -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8
+#ENV JAVA_OPTS -Duser.timezone=Asia/Shanghai
+#RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+#	echo "Asia/Shanghai" > /etc/timezone && \
+#	dpkg-reconfigure --frontend noninteractive tzdata
+
+ENV JAVA_TOOL_OPTIONS -Duser.timezone=Asia/Shanghai -Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8
 
 # Add Android SDK
 ## Source https://developer.android.com/studio/index.html
